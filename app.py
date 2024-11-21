@@ -13,13 +13,13 @@ def home():
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
     if request.method == 'POST':
-    req = request.get_json(silent=True, force=True)
+       req = request.get_json(silent=True, force=True)
 #    fulfillmentText = ''
 
-    query_result = req.get('queryResult')
-    parameters = query_result.get('parameters', '')  # Corrected the variable name here
+      query_result = req.get('queryResult')
+      parameters = query_result.get('parameters', '')  # Corrected the variable name here
 
-    if query_result.get('action') == 'get.name':
+#   if query_result.get('action') == 'get.name':
         fulfillmentText = "Hello " + str(parameters.get('name', '')) + ", glad to meet you!!"
     
     return {
