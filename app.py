@@ -19,8 +19,7 @@ def webhook():
         fulfillmentText = ''
 
         query_result = req.get('queryResult')
-        if query_result.get('action') == 'get.address':
-            
+#        if query_result.get('action') == 'get.address':           
         fulfillmentText = "Hi"
         return {
           "fulfillmentText": fulfillmentText,
@@ -31,3 +30,18 @@ def webhook():
 if __name__ == '__main__':
  
    app.run()
+
+def webhook():
+    if request.method == 'POST':
+        req = request.get_json(silent = True, force = True)
+
+        queryResults = req.get('queryResult')
+        parameters = queryResults.get('parameters', '')
+        speech = "Hello "+str(parameters.get('name', ''))+", glad to meet you!!"
+        response = {
+            'fulfillmentText': speech
+        }
+        res = json.dumps(response, indent = 4)
+        r = make_response(res)
+        r.headers["Content-Type"] = "application/json"
+        return r
