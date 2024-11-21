@@ -6,7 +6,8 @@ from flask import request
 
 # A very simple Flask Hello World application for you to get started with
 
-app = Flask(__name__)
+#app = Flask(__name__)
+app = Flask(flask_skeleton)
 
 @app.route('/')
 def hello_world():
