@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 # Your Weatherstack API key (Replace with your actual key)
-WEATHERSTACK_API_KEY = 4f51b776013a560fafe4e17dd4e677f7  # Replace with your API key from Weatherstack
+WEATHERSTACK_API_KEY = 4f51b776013a560fafe4e17dd4e677f7
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
