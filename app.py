@@ -1,34 +1,47 @@
-from flask import Flask
-from flask import request, jsonify
 
-# A very simple Flask Hello World application for you to get started with
+from flask import Flask, request, jsonify
+import requests
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    student_number = "200625943" 
-    return jsonify({"student_number": student_number})
+# Your Weatherstack API key (Replace with your actual key)
+WEATHERSTACK_API_KEY = '4f51b776013a560fafe4e17dd4e677f7'  # Replace with your API key from Weatherstack
 
-@app.route('/webhook', methods=['GET', 'POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
-    if request.method == 'POST':
-        req = request.get_json(silent=True, force=True)
-#    fulfillmentText = ''
-
-        query_result = req.get('queryResult')
-        parameters = query_result.get('parameters', '')  # Corrected the variable name here
-
-#   if query_result.get('action') == 'get.name':
-        fulfillmentText = "Hello " + str(parameters.get('name', '')) + ", glad to meet you!!"
-        fulfillmentText1 = "Hello " + str(query_result) + ", glad to meet you!!"
+    # Parse the incoming request from Dialogflow
+    req = request.get_json()
     
-        return {
-        "fulfillmentText": fulfillmentText1,
-        "source": "webhookdata"
-        }
+    # Get the intent name
+    intent_name = req.get('queryResult').get('intent').get('displayName')
+
+    # Example: If the intent is 'GetWeather', fetch weather data
+    if intent_name == 'GetWeather':
+        # Get the city parameter from the request
+        city = req.get('queryResult').get('parameters').get('geo-city')
+
+        # Build the API request URL for Weatherstack
+        weather_api_url = f'http://api.weatherstack.com/current?access_key={WEATHERSTACK_API_KEY}&query={city}'
+        
+        # Make the GET request to Weatherstack API
+        response = requests.get(weather_api_url)
+        data = response.json()
+        
+        # Check if we got valid data from the API
+        if 'current' in data:
+            temperature = data['current']['temperature']  # Temperature in Celsius
+            weather_description = data['current']['weather_descriptions'][0]  # Weather description (e.g., 'Clear')
+            message = f"The temperature in {city} is {temperature}°C with {weather_description}."
+        else:
+            message = "Sorry, I couldn't retrieve the weather data for that location."
+        
+        # Return the message to Dialogflow
+        return jsonify({
+            'fulfillmentText': message
+        })
+    
+    # Default response if the intent is not recognized
+    return jsonify({'fulfillmentText': 'No matching intent found.'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
+    app.run(debug=True, port=5000)
