@@ -12,8 +12,9 @@ def home():
 
 @app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
+    if request.method == 'POST':
     req = request.get_json(silent=True, force=True)
-    fulfillmentText = ''
+#    fulfillmentText = ''
 
     query_result = req.get('queryResult')
     parameters = query_result.get('parameters', '')  # Corrected the variable name here
