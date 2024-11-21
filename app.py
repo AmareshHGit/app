@@ -1,6 +1,6 @@
 
 from flask import Flask, request, jsonify
-import requests
+import request
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def webhook():
         weather_api_url = f'http://api.weatherstack.com/current?access_key={WEATHERSTACK_API_KEY}&query={city}'
         
         # Make the GET request to Weatherstack API
-        response = requests.get(weather_api_url)
+        response = request.get(weather_api_url)
         data = response.json()
         
         # Check if we got valid data from the API
