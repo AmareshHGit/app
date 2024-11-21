@@ -20,7 +20,7 @@ def webhook():
 
         query_result = req.get('queryResult')
 #        if query_result.get('action') == 'get.address':           
-        fulfillmentText = "Hi"
+        fulfillmentText = "Hello "+str(parameters.get('name', ''))+", glad to meet you!!"
         return {
           "fulfillmentText": fulfillmentText,
           "source": "webhookdata"
