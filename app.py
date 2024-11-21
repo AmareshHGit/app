@@ -19,6 +19,7 @@ def webhook():
         fulfillmentText = ''
 
         query_result = req.get('queryResult')
+        parameters = queryResults.get('parameters', '')
 #        if query_result.get('action') == 'get.address':           
         fulfillmentText = "Hello "+str(parameters.get('name', ''))+", glad to meet you!!"
         return {
