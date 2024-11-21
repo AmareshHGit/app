@@ -21,9 +21,10 @@ def webhook():
 
 #   if query_result.get('action') == 'get.name':
         fulfillmentText = "Hello " + str(parameters.get('name', '')) + ", glad to meet you!!"
+        fulfillmentText1 = "Hello " + str(query_result) + ", glad to meet you!!"
     
         return {
-        "fulfillmentText": fulfillmentText,
+        "fulfillmentText": fulfillmentText1,
         "source": "webhookdata"
         }
 
