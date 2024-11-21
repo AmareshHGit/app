@@ -1,6 +1,6 @@
 
 from flask import Flask
-from flask import request
+from flask import request, jsonify
 
 
 
@@ -10,8 +10,9 @@ app = Flask(__name__)
 #app = Flask(flask_skeleton)
 
 @app.route('/')
-def hello_world():
-    return 'Hello from Flask!'
+def home():
+    student_number = "200625943" 
+    return jsonify({"student_number": student_number})
 
 @app.route('/webhook', methods = ['GET', 'POST'])
 def webhook():
@@ -30,5 +31,5 @@ def webhook():
 
 if __name__ == '__main__':
  
-   app.run()
+   app.run(debug=True)
 
