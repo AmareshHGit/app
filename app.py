@@ -6,8 +6,8 @@ from flask import request
 
 # A very simple Flask Hello World application for you to get started with
 
-#app = Flask(__name__)
-app = Flask(flask_skeleton)
+app = Flask(__name__)
+#app = Flask(flask_skeleton)
 
 @app.route('/')
 def hello_world():
@@ -22,7 +22,10 @@ def webhook():
         if query_result.get('action') == 'get.address':
             
         fulfillmentText = "Hi"
-        return 'Hello'
+        return {
+          "fulfillmentText": fulfillmentText,
+          "source": "webhookdata"
+          }
         
 
 if __name__ == '__main__':
