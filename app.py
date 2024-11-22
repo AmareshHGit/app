@@ -4,6 +4,11 @@ import requests
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    student_number = "200625943" 
+    return jsonify({"student_number": student_number})
+    
 # Your Weatherstack API key (Replace with your actual key)
 WEATHERSTACK_API_KEY = '4f51b776013a560fafe4e17dd4e677f7'
 
